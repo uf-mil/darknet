@@ -22,6 +22,8 @@
 #include "../3rdparty/stb/include/stb_image_write.h"
 #endif
 
+#include "opencv2/core/types_c.h"
+
 extern int check_mistakes;
 //int windows = 0;
 
@@ -1705,4 +1707,32 @@ LIB_API void copy_image_from_bytes(image im, char *pdata)
             }
         }
     }
+}
+
+void ipl_into_image(IplImage* src, image im)
+{
+    unsigned char *data = (unsigned char *)src->imageData;
+    int h = src->height;
+    int w = src->width;
+    int c = src->nChannels;
+    int step = src->widthStep;
+    int i, j, k;
+
+    for(i = 0; i < h; ++i){
+        for(k= 0; k < c; ++k){
+            for(j = 0; j < w; ++j){
+                im.data[k*w*h + i*w + j] = data[i*step + j*c + k]/255.;
+            }
+        }
+    }
+}
+
+image ipl_to_image(IplImage* src)
+{
+    int h = src->height;
+    int w = src->width;
+    int c = src->nChannels;
+    image out = make_image(w, h, c);
+    ipl_into_image(src, out);
+    return out;
 }
