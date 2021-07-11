@@ -1,13 +1,9 @@
-name: Darknet Continuous Integration
+name: Darknet Pull Requests
 
-on:
-  push:
-  workflow_dispatch:
-  schedule:
-    - cron: '0 0 * * *'
+on: [pull_request]
 
 env:
-  VCPKG_BINARY_SOURCES: 'clear;nuget,vcpkgbinarycache,readwrite'
+  VCPKG_BINARY_SOURCES: 'clear;nuget,vcpkgbinarycache,read'
 
 jobs:
   ubuntu-makefile:
@@ -93,9 +89,6 @@ jobs:
         ./vcpkg/bootstrap-vcpkg.sh ;
         mono $(./vcpkg/vcpkg fetch nuget | tail -n 1) sources add
         -Name "vcpkgbinarycache"
-        -Source http://93.49.111.10:5555/v3/index.json ;
-        mono $(./vcpkg/vcpkg fetch nuget | tail -n 1)
-        setapikey ${{ secrets.BAGET_API_KEY }}
         -Source http://93.49.111.10:5555/v3/index.json
 
     - name: 'Build'
@@ -106,23 +99,6 @@ jobs:
         CUDA_TOOLKIT_ROOT_DIR: "/usr/local/cuda"
         LD_LIBRARY_PATH: "/usr/local/cuda/lib64:/usr/local/cuda/lib64/stubs:$LD_LIBRARY_PATH"
       run: ./build.ps1 -UseVCPKG -DoNotUpdateVCPKG -EnableOPENCV -EnableCUDA -EnableCUDNN -DisableInteractive -DoNotUpdateDARKNET
-
-    - uses: actions/upload-artifact@v2
-      with:
-        name: darknet-vcpkg-cuda-${{ runner.os }}
-        path: cfg
-    - uses: actions/upload-artifact@v2
-      with:
-        name: darknet-vcpkg-cuda-${{ runner.os }}
-        path: data
-    - uses: actions/upload-artifact@v2
-      with:
-        name: darknet-vcpkg-cuda-${{ runner.os }}
-        path: ${{ github.workspace }}/*dark*
-    - uses: actions/upload-artifact@v2
-      with:
-        name: darknet-vcpkg-cuda-${{ runner.os }}
-        path: ${{ github.workspace }}/uselib*
 
 
   ubuntu-vcpkg-opencv3-cuda:
@@ -153,9 +129,6 @@ jobs:
         ./vcpkg/bootstrap-vcpkg.sh ;
         mono $(./vcpkg/vcpkg fetch nuget | tail -n 1) sources add
         -Name "vcpkgbinarycache"
-        -Source http://93.49.111.10:5555/v3/index.json ;
-        mono $(./vcpkg/vcpkg fetch nuget | tail -n 1)
-        setapikey ${{ secrets.BAGET_API_KEY }}
         -Source http://93.49.111.10:5555/v3/index.json
 
     - name: 'Build'
@@ -196,9 +169,6 @@ jobs:
         ./vcpkg/bootstrap-vcpkg.sh ;
         mono $(./vcpkg/vcpkg fetch nuget | tail -n 1) sources add
         -Name "vcpkgbinarycache"
-        -Source http://93.49.111.10:5555/v3/index.json ;
-        mono $(./vcpkg/vcpkg fetch nuget | tail -n 1)
-        setapikey ${{ secrets.BAGET_API_KEY }}
         -Source http://93.49.111.10:5555/v3/index.json
 
     - name: 'Build'
@@ -232,23 +202,6 @@ jobs:
         LD_LIBRARY_PATH: "/usr/local/cuda/lib64:/usr/local/cuda/lib64/stubs:$LD_LIBRARY_PATH"
       run: ./build.ps1 -EnableOPENCV -DisableInteractive -DoNotUpdateDARKNET
 
-    - uses: actions/upload-artifact@v2
-      with:
-        name: darknet-${{ runner.os }}
-        path: cfg
-    - uses: actions/upload-artifact@v2
-      with:
-        name: darknet-${{ runner.os }}
-        path: data
-    - uses: actions/upload-artifact@v2
-      with:
-        name: darknet-${{ runner.os }}
-        path: ${{ github.workspace }}/*dark*
-    - uses: actions/upload-artifact@v2
-      with:
-        name: darknet-${{ runner.os }}
-        path: ${{ github.workspace }}/uselib*
-
 
   ubuntu-cuda:
     runs-on: ubuntu-20.04
@@ -280,23 +233,6 @@ jobs:
         LD_LIBRARY_PATH: "/usr/local/cuda/lib64:/usr/local/cuda/lib64/stubs:$LD_LIBRARY_PATH"
       run: ./build.ps1 -EnableOPENCV -EnableCUDA -EnableCUDNN -DisableInteractive -DoNotUpdateDARKNET
 
-    - uses: actions/upload-artifact@v2
-      with:
-        name: darknet-cuda-${{ runner.os }}
-        path: cfg
-    - uses: actions/upload-artifact@v2
-      with:
-        name: darknet-cuda-${{ runner.os }}
-        path: data
-    - uses: actions/upload-artifact@v2
-      with:
-        name: darknet-cuda-${{ runner.os }}
-        path: ${{ github.workspace }}/*dark*
-    - uses: actions/upload-artifact@v2
-      with:
-        name: darknet-cuda-${{ runner.os }}
-        path: ${{ github.workspace }}/uselib*
-
 
   ubuntu-no-ocv-cpp:
     runs-on: ubuntu-20.04
@@ -322,9 +258,6 @@ jobs:
         ./vcpkg/bootstrap-vcpkg.sh ;
         mono $(./vcpkg/vcpkg fetch nuget | tail -n 1) sources add
         -Name "vcpkgbinarycache"
-        -Source http://93.49.111.10:5555/v3/index.json ;
-        mono $(./vcpkg/vcpkg fetch nuget | tail -n 1)
-        setapikey ${{ secrets.BAGET_API_KEY }}
         -Source http://93.49.111.10:5555/v3/index.json
 
     - name: 'Setup'
@@ -349,31 +282,11 @@ jobs:
         ./vcpkg/bootstrap-vcpkg.sh ;
         mono $(./vcpkg/vcpkg fetch nuget | tail -n 1) sources add
         -Name "vcpkgbinarycache"
-        -Source http://93.49.111.10:5555/v3/index.json ;
-        mono $(./vcpkg/vcpkg fetch nuget | tail -n 1)
-        setapikey ${{ secrets.BAGET_API_KEY }}
         -Source http://93.49.111.10:5555/v3/index.json
 
     - name: 'Build'
       shell: pwsh
       run: ./build.ps1 -UseVCPKG -DoNotUpdateVCPKG -DisableInteractive -DoNotUpdateDARKNET
-
-    - uses: actions/upload-artifact@v2
-      with:
-        name: darknet-vcpkg-${{ runner.os }}
-        path: cfg
-    - uses: actions/upload-artifact@v2
-      with:
-        name: darknet-vcpkg-${{ runner.os }}
-        path: data
-    - uses: actions/upload-artifact@v2
-      with:
-        name: darknet-vcpkg-${{ runner.os }}
-        path: ${{ github.workspace }}/*dark*
-    - uses: actions/upload-artifact@v2
-      with:
-        name: darknet-vcpkg-${{ runner.os }}
-        path: ${{ github.workspace }}/uselib*
 
 
   osx:
@@ -389,23 +302,6 @@ jobs:
     - name: 'Build'
       shell: pwsh
       run: ./build.ps1 -EnableOPENCV -DisableInteractive -DoNotUpdateDARKNET
-
-    - uses: actions/upload-artifact@v2
-      with:
-        name: darknet-${{ runner.os }}
-        path: cfg
-    - uses: actions/upload-artifact@v2
-      with:
-        name: darknet-${{ runner.os }}
-        path: data
-    - uses: actions/upload-artifact@v2
-      with:
-        name: darknet-${{ runner.os }}
-        path: ${{ github.workspace }}/*dark*
-    - uses: actions/upload-artifact@v2
-      with:
-        name: darknet-${{ runner.os }}
-        path: ${{ github.workspace }}/uselib*
 
 
   osx-no-ocv-no-omp-cpp:
@@ -434,57 +330,11 @@ jobs:
         ./vcpkg/bootstrap-vcpkg.sh ;
         $(./vcpkg/vcpkg fetch nuget | tail -n 1) sources add
         -Name "vcpkgbinarycache"
-        -Source http://93.49.111.10:5555/v3/index.json ;
-        $(./vcpkg/vcpkg fetch nuget | tail -n 1)
-        setapikey ${{ secrets.BAGET_API_KEY }}
         -Source http://93.49.111.10:5555/v3/index.json
 
     - name: 'Build'
       shell: pwsh
       run: ./build.ps1 -UseVCPKG -DoNotUpdateVCPKG -EnableOPENCV -DisableInteractive -DoNotUpdateDARKNET
-
-    - uses: actions/upload-artifact@v2
-      with:
-        name: darknet-vcpkg-${{ runner.os }}
-        path: cfg
-    - uses: actions/upload-artifact@v2
-      with:
-        name: darknet-vcpkg-${{ runner.os }}
-        path: data
-    - uses: actions/upload-artifact@v2
-      with:
-        name: darknet-vcpkg-${{ runner.os }}
-        path: ${{ github.workspace }}/*dark*
-    - uses: actions/upload-artifact@v2
-      with:
-        name: darknet-vcpkg-${{ runner.os }}
-        path: ${{ github.workspace }}/build_release/*.dll
-    - uses: actions/upload-artifact@v2
-      with:
-        name: darknet-vcpkg-${{ runner.os }}
-        path: ${{ github.workspace }}/uselib*
-
-
-  win-vcpkg-port:
-    runs-on: windows-latest
-    steps:
-    - uses: actions/checkout@v2
-
-    - name: 'Setup vcpkg and NuGet artifacts backend'
-      shell: bash
-      run: >
-        git clone https://github.com/microsoft/vcpkg ;
-        ./vcpkg/bootstrap-vcpkg.sh ;
-        $(./vcpkg/vcpkg fetch nuget | tail -n 1) sources add
-        -Name "vcpkgbinarycache"
-        -Source http://93.49.111.10:5555/v3/index.json ;
-        $(./vcpkg/vcpkg fetch nuget | tail -n 1)
-        setapikey ${{ secrets.BAGET_API_KEY }}
-        -Source http://93.49.111.10:5555/v3/index.json
-
-    - name: 'Build'
-      shell: pwsh
-      run: ./build.ps1 -UseVCPKG -InstallDARKNETthroughVCPKG -ForceVCPKGDarknetHEAD -EnableOPENCV -DisableInteractive -DoNotUpdateDARKNET
 
 
   win-intlibs:
@@ -497,27 +347,6 @@ jobs:
     - name: 'Build'
       shell: pwsh
       run: ./build.ps1 -DisableInteractive -DoNotUpdateDARKNET
-
-    - uses: actions/upload-artifact@v2
-      with:
-        name: darknet-${{ runner.os }}
-        path: cfg
-    - uses: actions/upload-artifact@v2
-      with:
-        name: darknet-${{ runner.os }}
-        path: data
-    - uses: actions/upload-artifact@v2
-      with:
-        name: darknet-${{ runner.os }}
-        path: ${{ github.workspace }}/*dark*
-    - uses: actions/upload-artifact@v2
-      with:
-        name: darknet-${{ runner.os }}
-        path: ${{ github.workspace }}/3rdparty/pthreads/bin/*.dll
-    - uses: actions/upload-artifact@v2
-      with:
-        name: darknet-${{ runner.os }}
-        path: ${{ github.workspace }}/uselib*
 
 
   win-setup-ps1:
@@ -532,9 +361,6 @@ jobs:
         ./vcpkg/bootstrap-vcpkg.sh ;
         $(./vcpkg/vcpkg fetch nuget | tail -n 1) sources add
         -Name "vcpkgbinarycache"
-        -Source http://93.49.111.10:5555/v3/index.json ;
-        $(./vcpkg/vcpkg fetch nuget | tail -n 1)
-        setapikey ${{ secrets.BAGET_API_KEY }}
         -Source http://93.49.111.10:5555/v3/index.json
 
     - name: 'Setup'
