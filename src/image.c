@@ -13,16 +13,16 @@
 
 #ifndef STB_IMAGE_IMPLEMENTATION
 #define STB_IMAGE_IMPLEMENTATION
-// #include "stb_image.h"
 #include "../3rdparty/stb/include/stb_image.h"
 #endif
 #ifndef STB_IMAGE_WRITE_IMPLEMENTATION
 #define STB_IMAGE_WRITE_IMPLEMENTATION
-// #include "stb_image_write.h"
 #include "../3rdparty/stb/include/stb_image_write.h"
 #endif
 
-#include "opencv2/core/types_c.h"
+#include <opencv2/core/core_c.h>
+// #include <opencv2/videoio/legacy/constants_c.h>
+#include <opencv2/highgui/highgui_c.h>
 
 extern int check_mistakes;
 //int windows = 0;
