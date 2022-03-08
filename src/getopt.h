@@ -75,17 +75,17 @@ extern "C" {
 
 #define REPLACE_GETOPT /* use this getopt as the system getopt(3) */
 
-// extern int optind;		/* index of first non-option in argv      */
-// extern int optopt;		/* single option character, as parsed     */
-// extern int opterr;		/* flag to enable built-in diagnostics... */
+//extern int optind;		/* index of first non-option in argv      */
+//extern int optopt;		/* single option character, as parsed     */
+//extern int opterr;		/* flag to enable built-in diagnostics... */
 //				/* (user may set to zero, to suppress)    */
 //
-// extern char *optarg;		/* pointer to argument of current option  */
+//extern char *optarg;		/* pointer to argument of current option  */
 
 #define PRINT_ERROR ((opterr) && (*options != ':'))
 
-#define FLAG_PERMUTE 0x01  /* permute non-options to the end of argv */
-#define FLAG_ALLARGS 0x02  /* treat non-options as args to option "-1" */
+#define FLAG_PERMUTE 0x01 /* permute non-options to the end of argv */
+#define FLAG_ALLARGS 0x02 /* treat non-options as args to option "-1" */
 #define FLAG_LONGONLY 0x04 /* operate as getopt_long_only */
 
 /* return values */
@@ -105,8 +105,10 @@ static char EMSG[] = "";
 #define EMSG ""
 #endif
 
-static int getopt_internal(int, char* const*, const char*, const struct option*, int*, int);
-static int parse_long_options(char* const*, const char*, const struct option*, int*, int);
+static int getopt_internal(int, char* const*, const char*,
+    const struct option*, int*, int);
+static int parse_long_options(char* const*, const char*,
+    const struct option*, int*, int);
 static int gcd(int, int);
 static void permute_args(int, int, int, char* const*);
 
@@ -114,7 +116,7 @@ static char* place = EMSG; /* option letter processing */
 
 /* XXX: set optreset to 1 rather than these two */
 static int nonopt_start = -1; /* first non option argument (for permute) */
-static int nonopt_end = -1;   /* first option after non options (for permute) */
+static int nonopt_end = -1; /* first option after non options (for permute) */
 
 /* Error messages */
 static const char recargchar[] = "option requires an argument -- %c";
@@ -150,7 +152,7 @@ static void permute_args(int panonopt_start, int panonopt_end, int opt_end, char
 int getopt(int nargc, char* const* nargv, const char* options);
 #endif /* REPLACE_GETOPT */
 
-// extern int getopt(int nargc, char * const *nargv, const char *options);
+//extern int getopt(int nargc, char * const *nargv, const char *options);
 
 #ifdef _BSD_SOURCE
 /*
@@ -188,15 +190,13 @@ extern "C" {
  *	Parse long options in argc/argv argument vector.
  * Returns -1 if short_too is set and the option does not match long_options.
  */
-/* static int parse_long_options(char* const* nargv, const char* options, const struct option* long_options, int* idx,
- * int short_too); */
+/* static int parse_long_options(char* const* nargv, const char* options, const struct option* long_options, int* idx, int short_too); */
 
 /*
  * getopt_internal --
  *	Parse argc/argv argument vector.  Called by user level routines.
  */
-/* static int getopt_internal(int nargc, char* const* nargv, const char* options, const struct option* long_options,
- * int* idx, int flags); */
+/* static int getopt_internal(int nargc, char* const* nargv, const char* options, const struct option* long_options, int* idx, int flags); */
 
 /*
  * getopt_long --
