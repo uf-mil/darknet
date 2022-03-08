@@ -204,7 +204,7 @@ def main():
             )
         if args.save_labels:
             save_annotations(image_name, image, detections, class_names)
-        darknet.print_detections(detections, args.ext_output)
+        #darknet.print_detections(detections, args.ext_output)
         fps = int(1/(time.time() - prev_time))
         print("FPS: {}".format(fps))
         if not args.dont_show:

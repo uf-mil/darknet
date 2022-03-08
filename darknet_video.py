@@ -83,7 +83,7 @@ def inference(darknet_image_queue, detections_queue, fps_queue):
         fps = int(1/(time.time() - prev_time))
         fps_queue.put(fps)
         print("FPS: {}".format(fps))
-        darknet.print_detections(detections, args.ext_output)
+        #darknet.print_detections(detections, args.ext_output)
     cap.release()
 
 
