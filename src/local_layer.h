@@ -1,9 +1,9 @@
 #ifndef LOCAL_LAYER_H
 #define LOCAL_LAYER_H
 
+#include "activations.h"
 #include "dark_cuda.h"
 #include "image.h"
-#include "activations.h"
 #include "layer.h"
 #include "network.h"
 
@@ -15,13 +15,15 @@ extern "C" {
 #ifdef GPU
 void forward_local_layer_gpu(local_layer layer, network_state state);
 void backward_local_layer_gpu(local_layer layer, network_state state);
-void update_local_layer_gpu(local_layer layer, int batch, float learning_rate, float momentum, float decay, float loss_scale);
+void update_local_layer_gpu(local_layer layer, int batch, float learning_rate, float momentum, float decay,
+                            float loss_scale);
 
 void push_local_layer(local_layer layer);
 void pull_local_layer(local_layer layer);
 #endif
 
-local_layer make_local_layer(int batch, int h, int w, int c, int n, int size, int stride, int pad, ACTIVATION activation);
+local_layer make_local_layer(int batch, int h, int w, int c, int n, int size, int stride, int pad,
+                             ACTIVATION activation);
 
 void forward_local_layer(const local_layer layer, network_state state);
 void backward_local_layer(local_layer layer, network_state state);
