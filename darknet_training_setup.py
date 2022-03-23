@@ -55,7 +55,7 @@ def file_len(fname):
       pass
   return i + 1
 
-num_classes = file_len('Buoy-Segmentation-1' + '/train/_darknet.labels')
+num_classes = file_len(dataset.location + '/train/_darknet.labels')
 max_batches = num_classes*2000
 steps1 = .8 * max_batches
 steps2 = .9 * max_batches
