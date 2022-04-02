@@ -29,13 +29,15 @@ os.system("cp {dataset_dir}/train/*.jpg data/obj/".format(dataset_dir=dataset.lo
 os.system("cp {dataset_dir}/valid/*.jpg data/obj/".format(dataset_dir=dataset.location))
 os.system("cp {dataset_dir}/train/*.txt data/obj/".format(dataset_dir=dataset.location))
 os.system("cp {dataset_dir}/valid/*.txt data/obj/".format(dataset_dir=dataset.location))
+os.system("rm -rf backup")
+os.system("mkdir backup")
 
 with open('data/obj.data', 'w') as out:
   out.write('classes = 3\n')
   out.write('train = data/train.txt\n')
   out.write('valid = data/valid.txt\n')
   out.write('names = data/obj.names\n')
-  out.write('backup = backup/')
+  out.write('backup = backup')
 
 #write train file (just the image list)
 
